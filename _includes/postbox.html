@@ -7,7 +7,7 @@
             <a href="{{ site.baseurl }}{{ post.url }}">
                 {% assign post_image = post.image %}
                 {% if post_image == nil or post_image == "" %}
-                    {% assign img_match = post.content | split:'<img' | last %}
+                    {% assign img_match = post.content | split:'<img' | first %}
                     {% assign img_src = img_match | split:'src="' | last | split:'"' | first %}
                     {% assign post_image = img_src %}
                 {% endif %}
