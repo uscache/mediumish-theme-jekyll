@@ -7,18 +7,27 @@
             <a href="{{ site.baseurl }}{{ post.url }}">
                 {% assign post_image = post.image %}
                 {% if post_image == nil or post_image == "" %}
-                    {% assign img_match = post.content | split:'<img' | first %}
-                    {% assign img_src = img_match | split:'src="' | last | split:'"' | first %}
-                    {% assign post_image = img_src %}
+                  {% assign img_tag = post.content | split:'<img' %}
+                  {% if img_tag.size > 1 %}
+                    {% assign img_part = img_tag[1] | split:'src="' %}
+                    {% if img_part.size > 1 %}
+                      {% assign img_src = img_part[1] | split:'"' | first %}
+                      {% assign post_image = img_src %}
+                    {% endif %}
+                  {% endif %}
                 {% endif %}
 
                 {% if post_image != "" %}
-                    {% if site.lazyimages == "enabled" %}
-                        <img class="img-fluid lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="{% if post_image contains '://' %}{{ post_image }}{% else %}{{ site.baseurl }}/{{ post_image }}{% endif %}" alt="{{ post.title }}">
-                    {% else %}
-                        <img class="img-fluid" src="{% if post_image contains '://' %}{{ post_image }}{% else %}{{ site.baseurl }}/{{ post_image }}{% endif %}" alt="{{ post.title }}">
-                    {% endif %}
-
+                  {% if site.lazyimages == "enabled" %}
+                    <img class="img-fluid lazyimg"
+                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII="
+                         data-src="{% if post_image contains '://' %}{{ post_image }}{% else %}{{ site.baseurl }}/{{ post_image }}{% endif %}"
+                         alt="{{ post.title }}">
+                  {% else %}
+                    <img class="img-fluid"
+                         src="{% if post_image contains '://' %}{{ post_image }}{% else %}{{ site.baseurl }}/{{ post_image }}{% endif %}"
+                         alt="{{ post.title }}">
+                  {% endif %}
                 {% endif %}
             </a>
         </div>
