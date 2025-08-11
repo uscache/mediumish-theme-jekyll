@@ -7,10 +7,24 @@
                 <div class="h-100">
                     <div class="wrapthumbnail">
                         <a href="{{ site.baseurl }}{{ post.url }}">
-                            {% if site.lazyimages == "enabled" %}
-                            <img class="featured-box-img-cover lazyimg"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}">
-                            {% else %}
-                            <img class="featured-box-img-cover" src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}">
+                            {% assign post_image = post.image %}
+                            {% if post_image == nil or post_image == "" %}
+                                {% assign img_tag = post.content | split:'<img' %}
+                                {% if img_tag.size > 1 %}
+                                    {% assign img_part = img_tag[1] | split:'src="' %}
+                                    {% if img_part.size > 1 %}
+                                        {% assign img_src = img_part[1] | split:'"' | first %}
+                                        {% assign post_image = img_src %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if post_image != "" %}
+                                {% if site.lazyimages == "enabled" %}
+                                    <img class="featured-box-img-cover lazyimg"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}">
+                                {% else %}
+                                <img class="featured-box-img-cover" src="{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}">
+                                {% endif %}
                             {% endif %}
                         </a>
                     </div>
