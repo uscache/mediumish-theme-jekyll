@@ -1,11 +1,11 @@
 <div class="share sticky-top sticky-top-offset">
-    <p>
-        <a href="#" onclick="navigator.clipboard.writeText('{{ page.url | absolute_url }}'); return false;">
-            <i class="fa-solid fa-share"></i>
-        </a>
-    </p>
-
     <ul>
+        <li class="ml-1 mr-1">
+            <a href="#" onclick="navigator.clipboard.writeText('{{ page.url | absolute_url }}'); return false;">
+                <i class="fa-solid fa-share"></i>
+            </a>
+        </li>
+
         <li class="ml-1 mr-1">
             <a target="_blank" href="https://social-plugins.line.me/lineit/share?url={{ page.url | absolute_url }}" onclick="window.open(this.href, 'width=550,height=435');return false;">
                 <i class="fa-brands fa-line"></i>
